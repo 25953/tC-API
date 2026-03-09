@@ -1,4 +1,6 @@
-﻿namespace API.Models
+﻿using System.Collections.Generic;
+
+namespace API.Models
 {
 
     /// <summary>
@@ -9,7 +11,19 @@
         public int Id { get; set; }
 
 
-        public string Category { get; set; }
+        public  string Name { get; set; }
+
+
+
+
+        /* **************************************************************
+         *  Relationships
+         * ************************************************************** */
+
+
+
+        public ICollection<Photography> ListOfPhotos { get; set; }
+
 
 
     }

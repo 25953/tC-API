@@ -36,9 +36,15 @@
         /// </summary>
         public string PhoneNumber { get; set; }
 
-        
 
 
+        /* **************************************************************
+         *  Relationships
+         * ************************************************************** */
+
+
+
+        public ICollection<Purchase> ListOfPurchases { get; set; }
 
 
 

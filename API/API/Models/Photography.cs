@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Models
 {
@@ -8,9 +10,12 @@ namespace API.Models
     /// </summary>
     public class Photography
     {
-       /// <summary>
-       /// primary key
-       /// </summary>
+        /// <summary>
+        /// primary key
+        /// </summary>
+        /// 
+
+        [Key]
         public int Id { get; set; } 
         /// <summary>
         /// name of the photo
@@ -43,6 +48,7 @@ namespace API.Models
         public int CategoryFK { get; set; }
         public Category Category { get; set; }
 
-        
+        public ICollection<Purchase> ListOfPurchase  { get; set; }
+
     }
 }
