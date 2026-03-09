@@ -10,23 +10,22 @@ using API.Models;
 
 namespace API.Controllers
 {
-    public class PhotosController : Controller
+    public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PhotosController(ApplicationDbContext context)
+        public CategoriesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Photos
+        // GET: Categories
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Photos.Include(p => p.Category);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Categories.ToListAsync());
         }
 
-        // GET: Photos/Details/5
+        // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,42 +33,39 @@ namespace API.Controllers
                 return NotFound();
             }
 
-            var photography = await _context.Photos
-                .Include(p => p.Category)
+            var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (photography == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(photography);
+            return View(category);
         }
 
-        // GET: Photos/Create
+        // GET: Categories/Create
         public IActionResult Create()
         {
-            ViewData["CategoryFK"] = new SelectList(_context.Categories, "Id", "Name");
             return View();
         }
 
-        // POST: Photos/Create
+        // POST: Categories/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,File,Date,Price,CategoryFK")] Photography photography)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Category category)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(photography);
+                _context.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryFK"] = new SelectList(_context.Categories, "Id", "Name", photography.CategoryFK);
-            return View(photography);
+            return View(category);
         }
 
-        // GET: Photos/Edit/5
+        // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,23 +73,22 @@ namespace API.Controllers
                 return NotFound();
             }
 
-            var photography = await _context.Photos.FindAsync(id);
-            if (photography == null)
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
             {
                 return NotFound();
             }
-            ViewData["CategoryFK"] = new SelectList(_context.Categories, "Id", "Name", photography.CategoryFK);
-            return View(photography);
+            return View(category);
         }
 
-        // POST: Photos/Edit/5
+        // POST: Categories/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,File,Date,Price,CategoryFK")] Photography photography)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Category category)
         {
-            if (id != photography.Id)
+            if (id != category.Id)
             {
                 return NotFound();
             }
@@ -102,12 +97,12 @@ namespace API.Controllers
             {
                 try
                 {
-                    _context.Update(photography);
+                    _context.Update(category);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PhotographyExists(photography.Id))
+                    if (!CategoryExists(category.Id))
                     {
                         return NotFound();
                     }
@@ -118,11 +113,10 @@ namespace API.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryFK"] = new SelectList(_context.Categories, "Id", "Name", photography.CategoryFK);
-            return View(photography);
+            return View(category);
         }
 
-        // GET: Photos/Delete/5
+        // GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,35 +124,34 @@ namespace API.Controllers
                 return NotFound();
             }
 
-            var photography = await _context.Photos
-                .Include(p => p.Category)
+            var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (photography == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(photography);
+            return View(category);
         }
 
-        // POST: Photos/Delete/5
+        // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var photography = await _context.Photos.FindAsync(id);
-            if (photography != null)
+            var category = await _context.Categories.FindAsync(id);
+            if (category != null)
             {
-                _context.Photos.Remove(photography);
+                _context.Categories.Remove(category);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PhotographyExists(int id)
+        private bool CategoryExists(int id)
         {
-            return _context.Photos.Any(e => e.Id == id);
+            return _context.Categories.Any(e => e.Id == id);
         }
     }
 }

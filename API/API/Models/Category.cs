@@ -14,6 +14,7 @@ namespace API.Models
 
         [StringLength(50)]
         [Required(ErrorMessage = "Name is required.")]
+        [Display(Name="Nome de categoria")]
         public string Name { get; set; } = "";
 
 
@@ -25,7 +26,7 @@ namespace API.Models
 
 
 
-        public ICollection<Photography> ListOfPhotos { get; set; }
+        public ICollection<Photography> ListOfPhotos { get; set; } = [];
 
 
 
