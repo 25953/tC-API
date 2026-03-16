@@ -34,14 +34,23 @@ namespace API.Controllers.API
 
 
                                     })
+                                    .OrderBy(c => c.Id)
                                     .ToListAsync();
         }
 
         // GET: api/Categories/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Category>> GetCategory(int id)
+        public async Task<ActionResult<CategoryDTO>> GetCategory(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
+            var category = await _context.Categories
+                .Where(c => c.Id == id)
+                .Select(c=> new CategoryDTO
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                })
+                .FirstOrDefaultAsync();
+
 
             if (category == null)
             {
