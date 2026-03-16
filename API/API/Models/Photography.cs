@@ -53,6 +53,10 @@ namespace API.Models
         /// <summary>
         /// the price that user must pay to buy the photo
         /// </summary>
+
+
+
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
 

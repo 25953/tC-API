@@ -11,7 +11,7 @@ namespace API.Data
         /* tables of our database */
         public DbSet<Purchase> Purchases { get; set; }
 
-        public DbSet<MyUser> MyUsers { get; set; }
+        public DbSet<MyUser> Clients { get; set; }
 
         public DbSet<Photography> Photos { get; set; }
 
